@@ -1,0 +1,49 @@
+{
+    "world":1,
+    "level":1,
+    "levelIntroText":"There is a new super epic adventure. You are excitied!",
+
+    "rooms":[{
+        "position":[0,0],
+        "description":"This is the first room. You can use north, east, south, and west to naviagte in that direction.",
+        "doors":{
+            "north":{"condition":null, "connectedRoom":[0,1]},
+            "south":{"condition":"exitDoorKey", "connectedRoom":[0,-1]}
+        }
+    },{
+        "position":[0,1],
+        "description":"Congrats! You traveled north. You are now in the next room. There is a box in the room. Type: Search Box.",
+        "visible-actions":{
+            "search box":[{"type":"giveItem", "item":{"type":"item", "name":"Golden Key", "bValue":10, "sValue":5}}, {"type":"displayText", "text":"You found a golden key!"}]
+        },
+        "doors":{
+            "south":{"condition":null, "connectedRoom":[0,0]},
+            "west":{"condition":null, "connectedRoom":[1,1]}
+        }
+    },{
+        "position":[0,-1],
+        "description":"This is the exit. Good Job!",
+        "doors":{
+            "north":{"condition":"exitDoorKey", "connectedRoom":[0,0]}
+        }
+    },{
+        "position":[1,1],
+        "description":"You entered a secret room. There is a weapon in the middle of the room. Use grab weapon to grab it.",
+        "visible-actions":{
+            "grab weapon":[{"type":"giveItem", "item":{"type":"weapon", "name":"The Golden Sword", "bValue":50, "sValue":35, "attackDamage":5}}, {"type":"displayText", "text":"You obtained The Golden Sword!"}]
+        },
+        "doors":{
+            "west":{"condition":null, "connectedRoom":[0,1]}
+        }
+    }],
+
+    "conditions":{
+        "exitDoorKey":{"initialState":false, "requirements":[{"type":"checkForItem", "item":{"type":"item", "name":"Golden Key", "bValue":10, "sValue":5}}], "notActive":["denyEntry"], "active":["acceptEntry"]}
+    },
+
+    "hidden-actions":{
+        "denyEntry":[{"type":"displayText", "text":"You need a key to open this door."}],
+        "acceptEntry":[{"type":"displayText", "text":"The door is now unlocked."}, {"type":"removeItem", "itemName":"Golden Key"}]
+    }
+
+}
